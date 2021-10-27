@@ -45,15 +45,30 @@ Table:
 - raw
 
 Command:
-- A - append
-- I - insert
-- D - delete
-- R - replace
-- F - flush
-- Z - zero
-- L - show
-- N
-- X
+- A 
+    - append rule at the end of the selected chain   
+- I 
+    - insert one or more rules in the selected chain o specific position
+    - default position is 1
+- D 
+    - delete one or more rules from selected chain
+- R 
+    - replace a rule in the selected chain
+- F 
+    - flush selected chain
+    - all chains in the table if none is given
+- Z 
+    - zero the counters for byte and byte counters on a specific chain if given
+    - no chain given, all chains are selected
+- L 
+    -  List all rules in the selected chain
+    -  if no chain selected, all rules are listed
+- N 
+    - create a new user defined chain
+- X 
+    - delete the user defined chain
+- P 
+    - set the policy for the built-in chain (INPUT, OUTPUT or FORWARD)
 
 Chain:
 - INPUT
@@ -90,3 +105,58 @@ Target/Jump:
 - TEE
 - TOS
 - TTL
+
+# Examples
+List details of filter table
+```
+iptables -t filter -vn -L
+```
+
+Drop all icmp requests then check the filter TABLE
+```
+iptables -t filter -A INPUT -p icmp --icmp-type echo-request -j DROP
+```
+
+
+Deny all traffic to ubuntu.com from the linux host
+```
+iptables -t filter -A OUTPUT -p tcp --dport 80 -d www.ubuntu.com -j DROP
+iptables -t filter -A OUTPUT -p tcp --dport 443 -d www.ubuntu.com -j DROP
+```
+
+Drop port 69by inserting on top of input chain:
+```
+iptables -I INPUT -p udp --dport 69 -j DROP
+```
+
+Drop port 23 on third position of input chain:
+```
+iptables -I INPUT 3 -p tcp --dport 23 -j DROP
+```
+
+Accept port 22 on top to vew the hitcounts, clear counters then list:
+```
+iptables -A OUTPUT -p tcp --dport 22 -j ACCEPT
+```
+```
+iptables -Z
+```
+```
+iptables -L -vn
+```
+
+Create MYCHAIN:
+```
+iptables t filter -n MYCHAIN
+```
+
+Change default policy from ACCEPT to DROP:
+```
+iptables -P FORWARD DROP
+```
+
+Delete in the OUTPUT chain rule number 2:
+```
+iptables -D OUTPUT 2
+```
+
