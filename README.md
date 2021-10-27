@@ -35,3 +35,58 @@ CHAIN traversal:
   - skip connection tracking via NOTRACK target rules in the RAW TABLE
 
 
+# iptables command
+iptables [-t table_name] -COMMAND CHAIN_NAME matches -j TARGET/JUMP
+
+Table:
+- filter (default)
+- nat
+- mangle
+- raw
+
+Command:
+- A - append
+- I - insert
+- D - delete
+- R - replace
+- F - flush
+- Z - zero
+- L - show
+- N
+- X
+
+Chain:
+- INPUT
+- OUTPUT
+- FORWARD
+- PREROUTING
+- POSTROUTING
+- USER_DEFINED
+
+Matches:
+- -s - source_ip
+- -d - dest_ip
+- -p - protocol
+- --sport - source_port
+- --dport - destination_port
+- -i - incoming interface
+- -o - outgoing interface
+- -m mac
+- -m time
+- -m quota
+- -m limit
+- -m recent
+
+Target/Jump:
+- ACCEPT
+- DROP
+- REJECT
+- LOG
+- SNAT
+- DNAT
+- MASQUERADE
+- LIMIT
+- RETURN
+- TEE
+- TOS
+- TTL
