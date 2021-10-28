@@ -58,7 +58,7 @@ CHAIN traversal:
 
 
 # iptables command
-## iptables [-t TABLE_NAME] -command CHAIN_NAME matches -j TARGET/JUMP
+### iptables [-t TABLE_NAME] -command CHAIN_NAME matches -j TARGET/JUMP
 
 Table:
 - filter (default)
