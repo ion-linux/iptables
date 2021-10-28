@@ -45,6 +45,7 @@ Table:
 - raw
 
 Command:
+```
 - A 
     - append rule at the end of the selected chain   
 - I 
@@ -69,6 +70,7 @@ Command:
     - delete the user defined chain
 - P 
     - set the policy for the built-in chain (only INPUT, OUTPUT or FORWARD)
+```
 
 Chain:
 - INPUT
