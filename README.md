@@ -1,4 +1,4 @@
-# iptables
+# iptables via netfilter firewall
 
 [Netfilter](netfilter.org) is a software firewall inside Linux kernel.
 _iptables_ command configures the iptables software, root privileges are required.
