@@ -35,14 +35,26 @@ netfilter tables:
     - built-in chains: PREROUTING and OUTPUT
  -->
 
+<!--
 CHAIN traversal:
-  - incoming traffic filtered on the INPUT CHAIN of the FILTER TABLE
-  - outgoing traffic filtered on the OUTPUT CHAIN of the FILTER TABLE
-  - routed traffic is filtered on the FORWARD CHAIN of the FILTER TABLE
-  - SNAT/MASQUERADE is performed on the POSTROUTING CHAIN of the NAT TABLE
-  - DNAT/port-forwarding is performed on the PREROUTING CHAIN of of the NAT TABLE
-  - if packet headers modified in the MANGLE TABLE
-  - skip connection tracking via NOTRACK target rules in the RAW TABLE
+- incoming traffic filtered on the INPUT CHAIN of the FILTER TABLE
+- outgoing traffic filtered on the OUTPUT CHAIN of the FILTER TABLE
+- routed traffic is filtered on the FORWARD CHAIN of the FILTER TABLE
+- SNAT/MASQUERADE is performed on the POSTROUTING CHAIN of the NAT TABLE
+- DNAT/port-forwarding is performed on the PREROUTING CHAIN of of the NAT TABLE
+- if packet headers modified in the MANGLE TABLE
+- skip connection tracking via NOTRACK target rules in the RAW TABLE
+-->
+
+| TYPE | chain | table     |
+| -------- | -------------- | --------- |
+| incoming packets | INPUT  | FILTER  |
+| outgoing traffic | OUTPUT  | FILTER  |
+| routed packets | FORWARD  |FILTER  |
+| SNAT / MASQUERADE | POSTROUTING  | NAT  |
+| DNAT / port-forwarding | PREROUTING  | NAT  |
+| modify / mangle | | MANGLE  |
+| skip connection tracking <br /> via NOTRACK target | | RAW  |
 
 
 # iptables command
