@@ -68,7 +68,7 @@ Command:
 - X 
     - delete the user defined chain
 - P 
-    - set the policy for the built-in chain (INPUT, OUTPUT or FORWARD)
+    - set the policy for the built-in chain (only INPUT, OUTPUT or FORWARD)
 
 Chain:
 - INPUT
@@ -96,13 +96,13 @@ Target/Jump:
 - ACCEPT
 - DROP
 - REJECT
-- LOG
+- LOG (non-terminating, match and continue to next rule)
 - SNAT
 - DNAT
 - MASQUERADE
 - LIMIT
 - RETURN
-- TEE
+- TEE (non-terminating, match and continue to next rule)
 - TOS
 - TTL
 
@@ -159,4 +159,42 @@ Delete in the OUTPUT chain rule number 2:
 ```
 iptables -D OUTPUT 2
 ```
+
+Filter by incoming and outgoing interface:
+```
+iptables -A INPUT -i wlan0 -j ACCEPT
+```
+```
+iptables -A OUTPUT -o enp6s0 ACCEPT
+```
+
+Allow HTTPS only from a specific IP address (by negating)
+```
+iptables -A INPUT ! -s 9.9.9.9 -p tcp --dport 443 -j DROP
+```
+
+# Loading Firewall at boot time
+iptables-save  - dumps rules to stdout or to a file
+iptables-restore - loads rules from a file into memory
+
+Ubuntu/Debian
+iptables-persistent  automatically loads rules from /etc/iptables/rules.v4
+iptables-save > /etc/iptables/rules.v4
+
+# NAT/SNAT/DNAT/MASQUERADE and PORT-FORWARDING
+- SNAT uses NAT table and the POSTROUTING chain.
+- MASQUERADE special case of SNAT, used when IP of nat router is dynamic.
+- when SNAT/MASQUERADE netfilter also performs PAT
+    - echo "1" > /proc/sys/net/ipv4/ip_forward
+    - /etc/sysctl.conf contains net.ipv4_forward = 1 then restart network service (systemctl restart networking)
+    - add rule to nat table, and POSTROUTING chain
+ 
+ Example
+ - echo "1" > /proc/sys/net/ipv4/ip_forward
+ - iptables -t nat POSTROUTING -s 10.0.0.0/24 -o eth0 -j SNAT --to-source 9.9.9.9
+ OR
+ - iptables - t nat -POSTROUTING -s 10.0.0/24 -o eth0 -j MASQUERADE 
+
+
+ 
 
