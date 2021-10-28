@@ -9,6 +9,16 @@ A rule is placed in a specific CHAIN on a specific TABLE.
 
 Top to bottom match, when match is found the TARGET (action) is executed.
 
+| tables     | comments          |
+| -------- | -------------- |
+| filter | default table for iptables <br /> built-in chains: INPUT, OUTPUT, FORWARD|
+| nat | used for SNAT and DNAT <br />  built-in chains: PREROUTING, POSTROUTING, OUTPUT (local generated packets)|
+| mangle | packet alteration <br /> built-in chains: PREROUTING, INPUT, FORWARD, OUTPUT, POSTROUTING |
+| raw | can mark packets that should not be handled by the connection tracking system <br /> use NOTRACK target on the packet <br /> built-in chains: PREROUTING and OUTPUT|
+
+
+<!--
+
 netfilter tables:
 - filter
     - default table for iptables
@@ -23,7 +33,7 @@ netfilter tables:
     - can mark packets that should not be handled by the connection tracking system
     - use NOTRACK target on the packet
     - built-in chains: PREROUTING and OUTPUT
-  
+ -->
 
 CHAIN traversal:
   - incoming traffic filtered on the INPUT CHAIN of the FILTER TABLE
@@ -36,7 +46,7 @@ CHAIN traversal:
 
 
 # iptables command
-iptables [-t table_name] -COMMAND CHAIN_NAME matches -j TARGET/JUMP
+## iptables [-t TABLE_NAME] -command CHAIN_NAME matches -j TARGET/JUMP
 
 Table:
 - filter (default)
@@ -45,32 +55,20 @@ Table:
 - raw
 
 Command:
-```
-- A 
-    - append rule at the end of the selected chain   
-- I 
-    - insert one or more rules in the selected chain o specific position
-    - default position is 1
-- D 
-    - delete one or more rules from selected chain
-- R 
-    - replace a rule in the selected chain
-- F 
-    - flush selected chain
-    - all chains in the table if none is given
-- Z 
-    - zero the counters for byte and byte counters on a specific chain if given
-    - no chain given, all chains are selected
-- L 
-    -  List all rules in the selected chain
-    -  if no chain selected, all rules are listed
-- N 
-    - create a new user defined chain
-- X 
-    - delete the user defined chain
-- P 
-    - set the policy for the built-in chain (only INPUT, OUTPUT or FORWARD)
-```
+
+| command  | comment        |
+| -------- | -------------- |
+| -A | append rule at the end of the selected chain  |
+| -I | insert one or more rules in the selected chain o specific position <br /> default position is 1 |
+| -D | delete one or more rules from selected chain |
+| -R | replace a rule in the selected chain |
+| -F | flush selected chain <br /> all chains in the table if none is given |
+| -Z | zero the counters for byte and byte counters on a specific chain if given <br /> no chain given, all chains are selected |
+| -L | list all rules in the selected chain <br /> if no chain selected, all rules are listed |
+| -N | create a new user defined chain |
+| -X | delete the user defined chain | 
+| -P | set the policy for the built-in chain (only INPUT, OUTPUT or FORWARD) |
+
 
 Chain:
 - INPUT
